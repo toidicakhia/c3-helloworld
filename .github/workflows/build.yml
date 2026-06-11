@@ -34,7 +34,3 @@ jobs:
       - name: Build
         run: |
           c3c build
-
-      - name: Run
-        run: |
-          c3c run
