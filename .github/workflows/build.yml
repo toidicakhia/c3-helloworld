@@ -1,0 +1,40 @@
+name: C3 Build Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-latest
+          #- ubuntu-24.04-arm
+          - macos-14
+          - macos-15
+          - macos-latest
+          - windows-2022
+          - windows-latest
+          - windows-11-arm
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup C3
+        uses: jotrorox/setup-c3@v1
+
+      - name: Build
+        run: |
+          c3c build
+
+      - name: Run
+        run: |
+          c3c run
