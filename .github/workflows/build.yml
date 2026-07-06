@@ -38,10 +38,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $zip = "$env:TEMP\c3.zip"
-          Invoke-WebRequest -Uri "https://api.github.com/repos/c3lang/c3c/actions/artifacts/8081993070/zip" -OutFile $zip -Headers @{Authorization = "Bearer $env:GH_TOKEN"}
-          Expand-Archive -Path $zip -DestinationPath "$HOME\c3" -Force
-          "$HOME\c3\c3" >> $env:GITHUB_PATH
+          gh run download 28706948100 --repo c3lang/c3c --name c3-windows-aarch64-Debug --dir "$HOME\c3-extract"
+          $c3c = Get-ChildItem -Path "$HOME\c3-extract" -Recurse -Filter "c3c.exe" | Select-Object -First 1
+          $c3c.DirectoryName >> $env:GITHUB_PATH
 
       - name: Build
         run: |
