@@ -29,7 +29,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup C3
+        if: runner.arch != 'ARM64' || runner.os != 'Windows'
         uses: jotrorox/setup-c3@v1
+
+      - name: Setup C3 (Windows ARM64)
+        if: runner.arch == 'ARM64' && runner.os == 'Windows'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 28706948100 --repo c3lang/c3c --name c3-windows-aarch64-Debug --dir "$HOME\c3"
+          "$HOME\c3" >> $env:GITHUB_PATH
 
       - name: Build
         run: |
