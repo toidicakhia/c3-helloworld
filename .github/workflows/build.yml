@@ -41,7 +41,7 @@ jobs:
           $zip = "$env:TEMP\c3.zip"
           Invoke-WebRequest -Uri "https://api.github.com/repos/c3lang/c3c/actions/artifacts/8081993070/zip" -OutFile $zip -Headers @{Authorization = "Bearer $env:GH_TOKEN"}
           Expand-Archive -Path $zip -DestinationPath "$HOME\c3" -Force
-          "$HOME\c3" >> $env:GITHUB_PATH
+          "$HOME\c3\c3" >> $env:GITHUB_PATH
 
       - name: Build
         run: |
